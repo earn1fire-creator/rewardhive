@@ -7,7 +7,13 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, username: string, referredBy?: string) => Promise<{ error: string | null }>;
+  signUp: (
+    email: string,
+    password: string,
+    username: string,
+    captchaToken: string,
+    referredBy?: string,
+  ) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -49,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       (async () => {
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -67,9 +73,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     password: string,
     username: string,
+    captchaToken: string,
     referredBy?: string
+    
   ): Promise<{ error: string | null }> => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          captchaToken,
+        },
+      },
+    });
     if (error) return { error: error.message };
     if (!data.user) return { error: 'Registration failed. Please try again.' };
 
@@ -79,6 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       username,
       referral_code: referralCode,
       referred_by: referredBy || null,
+      captcha_token: captchaToken,
     });
 
     if (profileError) {
