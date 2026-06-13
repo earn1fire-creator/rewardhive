@@ -1,21 +1,23 @@
-import { useState } from 'react';
-import { Eye, EyeOff, Zap, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useRouter } from '../../contexts/RouterContext';
+import { useState } from "react";
+import { Eye, EyeOff, Zap, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useRouter } from "../../contexts/RouterContext";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function RegisterPage() {
   const { signUp } = useAuth();
   const { navigate } = useRouter();
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     acceptTerms: false,
+    captchaToken: "", // أضف هذا السطر فقط
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const set = (key: keyof typeof form, value: string | boolean) =>
@@ -32,30 +34,49 @@ export default function RegisterPage() {
     return s;
   };
 
-  const strengthLabel = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-  const strengthColor = ['', 'bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-emerald-500'];
+  const strengthLabel = ["", "Weak", "Fair", "Good", "Strong"];
+  const strengthColor = [
+    "",
+    "bg-red-500",
+    "bg-yellow-500",
+    "bg-blue-500",
+    "bg-emerald-500",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    if (!form.username.trim()) return setError('Username is required.');
-    if (form.username.trim().length < 3) return setError('Username must be at least 3 characters.');
-    if (!/^[a-zA-Z0-9_]+$/.test(form.username)) return setError('Username can only contain letters, numbers, and underscores.');
-    if (!form.email.trim()) return setError('Email is required.');
-    if (!form.password) return setError('Password is required.');
-    if (form.password.length < 8) return setError('Password must be at least 8 characters.');
-    if (form.password !== form.confirmPassword) return setError('Passwords do not match.');
-    if (!form.acceptTerms) return setError('Please accept Terms of Service and Privacy Policy.');
+    if (!form.username.trim()) return setError("Username is required.");
+    if (form.username.trim().length < 3)
+      return setError("Username must be at least 3 characters.");
+    if (!/^[a-zA-Z0-9_]+$/.test(form.username))
+      return setError(
+        "Username can only contain letters, numbers, and underscores.",
+      );
+    if (!form.email.trim()) return setError("Email is required.");
+    if (!form.password) return setError("Password is required.");
+    if (form.password.length < 8)
+      return setError("Password must be at least 8 characters.");
+    if (form.password !== form.confirmPassword)
+      return setError("Passwords do not match.");
+    if (!form.acceptTerms)
+      return setError("Please accept Terms of Service and Privacy Policy.");
+    if (!form.captchaToken) return setError("من فضلك حل الكابتشا أولاً."); // زود السطر ده هنا
 
     setLoading(true);
-    const { error: authError } = await signUp(form.email.trim(), form.password, form.username.trim());
+   const { error: authError } = await signUp(
+      form.email.trim(),
+      form.password,
+      form.username.trim(),
+      form.captchaToken, // زود الـ form.captchaToken هنا
+    );
     setLoading(false);
 
     if (authError) {
       setError(authError);
     } else {
-      navigate('dashboard');
+      navigate("dashboard");
     }
   };
 
@@ -69,7 +90,9 @@ export default function RegisterPage() {
             <Zap size={22} className="text-white" />
           </div>
           <h1 className="text-2xl font-bold text-white">Create your account</h1>
-          <p className="text-gray-400 mt-1">Join RewardHive and start earning today</p>
+          <p className="text-gray-400 mt-1">
+            Join RewardHive and start earning today
+          </p>
         </div>
 
         <div className="card p-8">
@@ -82,11 +105,13 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Username</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                Username
+              </label>
               <input
                 type="text"
                 value={form.username}
-                onChange={(e) => set('username', e.target.value)}
+                onChange={(e) => set("username", e.target.value)}
                 className="input-field"
                 placeholder="your_username"
                 autoComplete="username"
@@ -94,11 +119,13 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                Email
+              </label>
               <input
                 type="email"
                 value={form.email}
-                onChange={(e) => set('email', e.target.value)}
+                onChange={(e) => set("email", e.target.value)}
                 className="input-field"
                 placeholder="you@example.com"
                 autoComplete="email"
@@ -106,12 +133,14 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                Password
+              </label>
               <div className="relative">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={form.password}
-                  onChange={(e) => set('password', e.target.value)}
+                  onChange={(e) => set("password", e.target.value)}
                   className="input-field pr-10"
                   placeholder="••••••••"
                   autoComplete="new-password"
@@ -130,22 +159,26 @@ export default function RegisterPage() {
                     {[1, 2, 3, 4].map((n) => (
                       <div
                         key={n}
-                        className={`h-1 flex-1 rounded-full transition-all ${n <= ps ? strengthColor[ps] : 'bg-[#2a2e45]'}`}
+                        className={`h-1 flex-1 rounded-full transition-all ${n <= ps ? strengthColor[ps] : "bg-[#2a2e45]"}`}
                       />
                     ))}
                   </div>
-                  <p className="text-xs text-gray-400 mt-1">{strengthLabel[ps]}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {strengthLabel[ps]}
+                  </p>
                 </div>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Confirm Password</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                Confirm Password
+              </label>
               <div className="relative">
                 <input
-                  type={showConfirm ? 'text' : 'password'}
+                  type={showConfirm ? "text" : "password"}
                   value={form.confirmPassword}
-                  onChange={(e) => set('confirmPassword', e.target.value)}
+                  onChange={(e) => set("confirmPassword", e.target.value)}
                   className="input-field pr-10"
                   placeholder="••••••••"
                   autoComplete="new-password"
@@ -157,33 +190,53 @@ export default function RegisterPage() {
                 >
                   {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
-                {form.confirmPassword && form.password === form.confirmPassword && (
-                  <CheckCircle2 size={16} className="absolute right-9 top-1/2 -translate-y-1/2 text-emerald-400" />
-                )}
+                {form.confirmPassword &&
+                  form.password === form.confirmPassword && (
+                    <CheckCircle2
+                      size={16}
+                      className="absolute right-9 top-1/2 -translate-y-1/2 text-emerald-400"
+                    />
+                  )}
               </div>
             </div>
-
+            <div className="mb-4">
+              <Turnstile
+                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                onSuccess={(token) => {
+                  setForm((prev) => ({ ...prev, captchaToken: token }));
+                }}
+              />
+            </div>
             <div className="flex items-start gap-3 mt-2">
               <input
                 id="acceptTerms"
                 type="checkbox"
                 checked={form.acceptTerms}
-                onChange={(e) => set('acceptTerms', e.target.checked)}
+                onChange={(e) => set("acceptTerms", e.target.checked)}
                 className="mt-0.5 w-4 h-4 flex-shrink-0 accent-blue-600 cursor-pointer"
               />
-              <label htmlFor="acceptTerms" className="text-sm text-gray-400 leading-relaxed cursor-pointer select-none">
-                I agree to the{' '}
+              <label
+                htmlFor="acceptTerms"
+                className="text-sm text-gray-400 leading-relaxed cursor-pointer select-none"
+              >
+                I agree to the{" "}
                 <button
                   type="button"
-                  onClick={(e) => { e.preventDefault(); navigate('terms'); }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("terms");
+                  }}
                   className="text-blue-400 hover:text-blue-300 underline"
                 >
                   Terms of Service
-                </button>
-                {' '}and{' '}
+                </button>{" "}
+                and{" "}
                 <button
                   type="button"
-                  onClick={(e) => { e.preventDefault(); navigate('privacy'); }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("privacy");
+                  }}
                   className="text-blue-400 hover:text-blue-300 underline"
                 >
                   Privacy Policy
@@ -202,15 +255,15 @@ export default function RegisterPage() {
                   Creating account...
                 </>
               ) : (
-                'Create Account'
+                "Create Account"
               )}
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-400 mt-6">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
-              onClick={() => navigate('login')}
+              onClick={() => navigate("login")}
               className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
               Sign in
