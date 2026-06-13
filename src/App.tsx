@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { RouterProvider, useRouter } from './contexts/RouterContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/layout/Header';
 import DashboardLayout from './components/layout/DashboardLayout';
 
@@ -45,10 +46,10 @@ function AppRouter() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d0f18] flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-400 text-sm">Loading RewardHive...</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">Loading RewardHive...</p>
         </div>
       </div>
     );
@@ -59,31 +60,31 @@ function AppRouter() {
   if (publicPages.includes(currentPage)) {
     if (currentPage === 'home') return <HomePage />;
     if (currentPage === 'login') return (
-      <div className="min-h-screen bg-[#0d0f18]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
         <Header />
         <LoginPage />
       </div>
     );
     if (currentPage === 'register') return (
-      <div className="min-h-screen bg-[#0d0f18]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
         <Header />
         <RegisterPage />
       </div>
     );
     if (currentPage === 'privacy') return (
-      <div className="min-h-screen bg-[#0d0f18]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
         <Header />
         <PrivacyPolicyPage />
       </div>
     );
     if (currentPage === 'terms') return (
-      <div className="min-h-screen bg-[#0d0f18]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
         <Header />
         <TermsOfServicePage />
       </div>
     );
     if (currentPage === 'contact' || currentPage === 'support') return (
-      <div className="min-h-screen bg-[#0d0f18]">
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
         <Header />
         <ContactPage />
       </div>
@@ -110,9 +111,11 @@ function AppRouter() {
 export default function App() {
   return (
     <RouterProvider>
-      <AuthProvider>
-        <AppRouter />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRouter />
+        </AuthProvider>
+      </ThemeProvider>
     </RouterProvider>
   );
 }

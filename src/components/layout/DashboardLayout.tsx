@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0d0f18]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
       <Header
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         sidebarOpen={sidebarOpen}

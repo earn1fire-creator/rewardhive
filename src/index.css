@@ -13,8 +13,7 @@
 
   body {
     font-family: 'Inter', sans-serif;
-    background-color: #0d0f18;
-    color: #ffffff;
+    @apply bg-gray-50 text-gray-900 dark:bg-[#0d0f18] dark:text-white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -25,16 +24,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #161827;
+    @apply bg-gray-200 dark:bg-[#161827];
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #2a2e45;
+    @apply bg-gray-400 dark:bg-[#2a2e45];
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #3b4060;
+    @apply bg-gray-500 dark:bg-[#3b4060];
   }
 }
 
@@ -55,30 +54,30 @@
   }
 
   .btn-secondary {
-    @apply bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-500/10 font-semibold px-6 py-2.5 rounded-lg transition-all duration-200;
+    @apply bg-transparent border border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 font-semibold px-6 py-2.5 rounded-lg transition-all duration-200;
   }
 
   .input-field {
-    @apply w-full bg-[#1e2235] border border-[#2a2e45] text-white placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all duration-200;
+    @apply w-full bg-white dark:bg-[#1e2235] border border-gray-300 dark:border-[#2a2e45] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all duration-200;
   }
 
   .card {
-    @apply bg-[#161827] border border-[#2a2e45] rounded-xl;
+    @apply bg-white dark:bg-[#161827] border border-gray-200 dark:border-[#2a2e45] rounded-xl shadow-sm dark:shadow-none;
   }
 
   .badge-connected {
-    @apply bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-medium px-2 py-0.5 rounded-full;
+    @apply bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 text-xs font-medium px-2 py-0.5 rounded-full;
   }
 
   .badge-disconnected {
-    @apply bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-medium px-2 py-0.5 rounded-full;
+    @apply bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/30 text-xs font-medium px-2 py-0.5 rounded-full;
   }
 
   .sidebar-link {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200 cursor-pointer text-sm font-medium;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all duration-200 cursor-pointer text-sm font-medium;
   }
 
   .sidebar-link.active {
-    @apply text-white bg-blue-600/20 border border-blue-500/30;
+    @apply text-blue-600 dark:text-white bg-blue-50 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-500/30;
   }
 }

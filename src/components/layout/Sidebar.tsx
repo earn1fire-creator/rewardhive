@@ -58,7 +58,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-14 left-0 bottom-0 w-60 bg-[#0d0f18] border-r border-[#2a2e45] z-40
+          fixed top-14 left-0 bottom-0 w-60 bg-white dark:bg-[#0d0f18] border-r border-gray-200 dark:border-[#2a2e45] z-40
           flex flex-col
           transition-transform duration-300
           ${open ? 'translate-x-0' : '-translate-x-full'}
@@ -66,11 +66,11 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         `}
       >
         {/* Logo section visible on mobile */}
-        <div className="flex items-center gap-2 px-4 py-4 lg:hidden border-b border-[#2a2e45]">
+        <div className="flex items-center gap-2 px-4 py-4 lg:hidden border-b border-gray-200 dark:border-[#2a2e45]">
           <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <Zap size={14} className="text-white" />
           </div>
-          <span className="font-bold text-white">RewardHive</span>
+          <span className="font-bold text-gray-900 dark:text-white">RewardHive</span>
         </div>
 
         {/* Navigation */}
@@ -82,7 +82,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 onClick={() => handleNav(page)}
                 className={`sidebar-link w-full ${currentPage === page ? 'active' : ''}`}
               >
-                <span className={currentPage === page ? 'text-blue-400' : 'text-gray-500'}>
+                <span className={currentPage === page ? 'text-blue-500 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}>
                   {icon}
                 </span>
                 {label}
@@ -91,12 +91,12 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
             {profile?.is_admin && (
               <>
-                <div className="border-t border-[#2a2e45] my-2" />
+                <div className="border-t border-gray-200 dark:border-[#2a2e45] my-2" />
                 <button
                   onClick={() => handleNav('admin')}
                   className={`sidebar-link w-full ${currentPage === 'admin' ? 'active' : ''}`}
                 >
-                  <span className={currentPage === 'admin' ? 'text-blue-400' : 'text-blue-500/60'}>
+                  <span className={currentPage === 'admin' ? 'text-blue-500 dark:text-blue-400' : 'text-blue-500/60'}>
                     <ShieldCheck size={18} />
                   </span>
                   Admin Panel
@@ -107,10 +107,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         {/* Anti-fraud notice */}
-        <div className="p-3 border-t border-[#2a2e45]">
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-            <p className="text-xs text-red-400 font-medium mb-0.5">Security Notice</p>
-            <p className="text-xs text-gray-500 leading-relaxed">
+        <div className="p-3 border-t border-gray-200 dark:border-[#2a2e45]">
+          <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg p-3">
+            <p className="text-xs text-red-600 dark:text-red-400 font-medium mb-0.5">Security Notice</p>
+            <p className="text-xs text-gray-500 dark:text-gray-500 leading-relaxed">
               VPN and Proxy usage is strictly prohibited.
             </p>
           </div>
