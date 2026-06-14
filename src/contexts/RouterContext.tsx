@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { Page } from '../types';
 
 const VALID_PAGES: Page[] = [
-  'home', 'login', 'register', 'dashboard', 'surveys', 'offers', 'offerwalls',
+  'home', 'login', 'register', 'dashboard', 'surveys', 'offerwalls',
   'wallet', 'rewards', 'withdraw', 'referrals', 'leaderboard', 'profile',
   'settings', 'support', 'privacy', 'terms', 'contact', 'admin',
 ];

@@ -4,7 +4,6 @@ export type Page =
   | 'register'
   | 'dashboard'
   | 'surveys'
-  | 'offers'
   | 'offerwalls'
   | 'wallet'
   | 'rewards'

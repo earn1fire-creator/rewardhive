@@ -9,9 +9,25 @@ export interface OfferwallProviderConfig {
   callbackUrl: string;
   docsUrl: string;
   wallType: 'offerwall' | 'cpa' | 'gaming';
+  isActive: boolean;
+  wallUrl?: string;
 }
 
 export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
+  {
+    id: 'cpalead',
+    name: 'CPALead',
+    displayName: 'CPALead',
+    logoColor: '#10b981',
+    description: 'Industry-leading CPA network with thousands of active offers globally. Complete surveys, downloads, and signups to earn points.',
+    apiEndpoint: 'https://www.cpalead.com/api',
+    requiredParams: ['API_KEY', 'USER_ID', 'GATEWAY_ID'],
+    callbackUrl: '/api/callbacks/cpalead',
+    docsUrl: 'https://cpalead.com/publishers',
+    wallType: 'cpa',
+    isActive: true,
+    wallUrl: 'https://www.lnksforyou.com/wall/cVL5P6',
+  },
   {
     id: 'playfull',
     name: 'Playfull',
@@ -23,6 +39,7 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/playfull',
     docsUrl: 'https://playfull.com/developers',
     wallType: 'gaming',
+    isActive: false,
   },
   {
     id: 'vortexwall',
@@ -35,6 +52,7 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/vortexwall',
     docsUrl: 'https://vortexwall.com/publishers',
     wallType: 'offerwall',
+    isActive: false,
   },
   {
     id: 'notik',
@@ -47,6 +65,7 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/notik',
     docsUrl: 'https://notik.me/documentation',
     wallType: 'offerwall',
+    isActive: false,
   },
   {
     id: 'ovnix',
@@ -59,6 +78,7 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/ovnix',
     docsUrl: 'https://ovnix.com/api-docs',
     wallType: 'cpa',
+    isActive: false,
   },
   {
     id: 'cpalead',
@@ -71,6 +91,8 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/cpalead',
     docsUrl: 'https://cpalead.com/publishers',
     wallType: 'cpa',
+    isActive: true,
+    wallUrl: 'https://www.lnksforyou.com/wall/cVL5P6',
   },
   {
     id: 'tplayad',
@@ -83,6 +105,7 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     callbackUrl: '/api/callbacks/tplayad',
     docsUrl: 'https://tplayad.com/publisher-api',
     wallType: 'gaming',
+    isActive: false,
   },
 ];
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Wallet, TrendingUp, ClipboardList, Layers, Sparkles, ArrowUpRight,
+  Wallet, TrendingUp, ClipboardList, Layers, ArrowUpRight,
   Clock, CheckCircle2, XCircle, Loader2
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -96,7 +96,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick actions */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {[
           {
             label: 'Start a Survey',
@@ -106,25 +106,18 @@ export default function DashboardPage() {
             icon: <ClipboardList size={20} className="text-blue-400" />,
           },
           {
-            label: 'Complete Offers',
-            desc: 'Earn points by completing offers from CPAlead',
-            page: 'offers' as const,
-            color: 'from-purple-500/10 to-purple-600/5 border-purple-500/20 hover:border-purple-500/40',
-            icon: <Sparkles size={20} className="text-purple-400" />,
-          },
-          {
-            label: 'View Offerwalls',
-            desc: 'Explore all available offerwall integrations',
+            label: 'Open Offerwalls',
+            desc: 'Complete CPAlead offers to earn points',
             page: 'offerwalls' as const,
-            color: 'from-cyan-500/10 to-cyan-600/5 border-cyan-500/20 hover:border-cyan-500/40',
-            icon: <Layers size={20} className="text-cyan-400" />,
+            color: 'from-emerald-500/10 to-emerald-600/5 border-emerald-500/20 hover:border-emerald-500/40',
+            icon: <Layers size={20} className="text-emerald-400" />,
           },
           {
             label: 'Withdraw Earnings',
             desc: 'Convert your points to real money',
             page: 'withdraw' as const,
-            color: 'from-emerald-500/10 to-emerald-600/5 border-emerald-500/20 hover:border-emerald-500/40',
-            icon: <ArrowUpRight size={20} className="text-emerald-400" />,
+            color: 'from-purple-500/10 to-purple-600/5 border-purple-500/20 hover:border-purple-500/40',
+            icon: <ArrowUpRight size={20} className="text-purple-400" />,
           },
         ].map(({ label, desc, page, color, icon }) => (
           <button

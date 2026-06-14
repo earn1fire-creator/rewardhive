@@ -10,7 +10,6 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import SurveysPage from './pages/surveys/SurveysPage';
-import OffersPage from './pages/offers/OffersPage';
 import OfferwallsPage from './pages/offerwalls/OfferwallsPage';
 import WalletPage from './pages/wallet/WalletPage';
 import RewardsPage from './pages/rewards/RewardsPage';
@@ -26,7 +25,7 @@ import ContactPage from './pages/contact/ContactPage';
 import AdminPage from './pages/admin/AdminPage';
 
 const PROTECTED_PAGES = [
-  'dashboard', 'surveys', 'offers', 'offerwalls', 'wallet', 'rewards',
+  'dashboard', 'surveys', 'offerwalls', 'wallet', 'rewards',
   'withdraw', 'referrals', 'leaderboard', 'profile', 'settings', 'admin',
 ];
 
@@ -96,7 +95,6 @@ function AppRouter() {
     <DashboardLayout>
       {currentPage === 'dashboard' && <DashboardPage />}
       {currentPage === 'surveys' && <SurveysPage />}
-      {currentPage === 'offers' && <OffersPage />}
       {currentPage === 'offerwalls' && <OfferwallsPage />}
       {currentPage === 'wallet' && <WalletPage />}
       {currentPage === 'rewards' && <RewardsPage />}
