@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Wallet, TrendingUp, ClipboardList, Layers, ArrowUpRight,
+  Wallet, TrendingUp, ClipboardList, Layers, Sparkles, ArrowUpRight,
   Clock, CheckCircle2, XCircle, Loader2
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -96,7 +96,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         {[
           {
             label: 'Start a Survey',
@@ -106,11 +106,18 @@ export default function DashboardPage() {
             icon: <ClipboardList size={20} className="text-blue-400" />,
           },
           {
-            label: 'View Offerwalls',
-            desc: 'Complete offers to earn points faster',
-            page: 'offerwalls' as const,
+            label: 'Complete Offers',
+            desc: 'Earn points by completing offers from CPAlead',
+            page: 'offers' as const,
             color: 'from-purple-500/10 to-purple-600/5 border-purple-500/20 hover:border-purple-500/40',
-            icon: <Layers size={20} className="text-purple-400" />,
+            icon: <Sparkles size={20} className="text-purple-400" />,
+          },
+          {
+            label: 'View Offerwalls',
+            desc: 'Explore all available offerwall integrations',
+            page: 'offerwalls' as const,
+            color: 'from-cyan-500/10 to-cyan-600/5 border-cyan-500/20 hover:border-cyan-500/40',
+            icon: <Layers size={20} className="text-cyan-400" />,
           },
           {
             label: 'Withdraw Earnings',

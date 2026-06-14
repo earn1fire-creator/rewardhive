@@ -3,6 +3,7 @@ import {
   ClipboardList,
   Layers,
   Gift,
+  Sparkles,
   Wallet,
   ArrowUpRight,
   Users,
@@ -20,6 +21,7 @@ import type { Page } from '../../types';
 const NAV_ITEMS: { label: string; page: Page; icon: React.ReactNode }[] = [
   { label: 'Dashboard', page: 'dashboard', icon: <LayoutDashboard size={18} /> },
   { label: 'Surveys', page: 'surveys', icon: <ClipboardList size={18} /> },
+  { label: 'Offers', page: 'offers', icon: <Sparkles size={18} /> },
   { label: 'Offerwalls', page: 'offerwalls', icon: <Layers size={18} /> },
   { label: 'Rewards', page: 'rewards', icon: <Gift size={18} /> },
   { label: 'Wallet', page: 'wallet', icon: <Wallet size={18} /> },
