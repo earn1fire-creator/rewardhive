@@ -11,7 +11,6 @@ interface AuthContextType {
     email: string,
     password: string,
     username: string,
-    captchaToken: string,
     referredBy?: string,
   ) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
@@ -73,18 +72,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     password: string,
     username: string,
-    captchaToken: string,
     referredBy?: string
-    
   ): Promise<{ error: string | null }> => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          captchaToken,
-        },
-      },
     });
     if (error) return { error: error.message };
     if (!data.user) return { error: 'Registration failed. Please try again.' };
@@ -95,7 +87,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       username,
       referral_code: referralCode,
       referred_by: referredBy || null,
-      captcha_token: captchaToken,
     });
 
     if (profileError) {

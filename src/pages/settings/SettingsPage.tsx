@@ -161,7 +161,6 @@ export default function SettingsPage() {
               { label: 'VPN Detection', status: 'Active', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
               { label: 'Proxy Detection', status: 'Active', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
               { label: 'Suspicious Activity Monitoring', status: 'Active', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-              { label: 'CAPTCHA Protection', status: 'Ready', color: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20' },
               { label: 'Account Protection', status: 'Active', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
             ].map(({ label, status, color }) => (
               <div key={label} className="flex items-center justify-between py-2">

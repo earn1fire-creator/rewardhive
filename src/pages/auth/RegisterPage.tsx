@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Eye, EyeOff, Zap, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "../../contexts/RouterContext";
-import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function RegisterPage() {
   const { signUp } = useAuth();
@@ -13,7 +12,6 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     acceptTerms: false,
-    captchaToken: "", // أضف هذا السطر فقط
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -62,14 +60,12 @@ export default function RegisterPage() {
       return setError("Passwords do not match.");
     if (!form.acceptTerms)
       return setError("Please accept Terms of Service and Privacy Policy.");
-    if (!form.captchaToken) return setError("من فضلك حل الكابتشا أولاً."); // زود السطر ده هنا
 
     setLoading(true);
-   const { error: authError } = await signUp(
+    const { error: authError } = await signUp(
       form.email.trim(),
       form.password,
       form.username.trim(),
-      form.captchaToken, // زود الـ form.captchaToken هنا
     );
     setLoading(false);
 
@@ -198,14 +194,6 @@ export default function RegisterPage() {
                     />
                   )}
               </div>
-            </div>
-            <div className="mb-4">
-              <Turnstile
-                siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                onSuccess={(token) => {
-                  setForm((prev) => ({ ...prev, captchaToken: token }));
-                }}
-              />
             </div>
             <div className="flex items-start gap-3 mt-2">
               <input
