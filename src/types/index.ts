@@ -5,8 +5,6 @@ export type Page =
   | 'dashboard'
   | 'surveys'
   | 'offerwalls'
-  | 'wallet'
-  | 'rewards'
   | 'withdraw'
   | 'referrals'
   | 'leaderboard'
@@ -16,7 +14,11 @@ export type Page =
   | 'privacy'
   | 'terms'
   | 'contact'
-  | 'admin';
+  | 'admin'
+  | 'success'
+  | 'overquota'
+  | 'terminate'
+  | 'security-terminate';
 
 export interface Profile {
   id: string;

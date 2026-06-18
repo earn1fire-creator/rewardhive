@@ -3,8 +3,9 @@ import type { Page } from '../types';
 
 const VALID_PAGES: Page[] = [
   'home', 'login', 'register', 'dashboard', 'surveys', 'offerwalls',
-  'wallet', 'rewards', 'withdraw', 'referrals', 'leaderboard', 'profile',
+  'withdraw', 'referrals', 'leaderboard', 'profile',
   'settings', 'support', 'privacy', 'terms', 'contact', 'admin',
+  'success', 'overquota', 'terminate', 'security-terminate',
 ];
 
 interface RouterContextType {

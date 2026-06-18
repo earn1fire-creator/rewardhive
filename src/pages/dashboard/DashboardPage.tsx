@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  Wallet, TrendingUp, ClipboardList, Layers, ArrowUpRight,
-  Clock, CheckCircle2, XCircle, Loader2
+  TrendingUp, ClipboardList, Layers, ArrowUpRight,
+  Clock, CheckCircle2, XCircle, Loader2, Shield, FileText
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from '../../contexts/RouterContext';
@@ -72,7 +72,7 @@ export default function DashboardPage() {
         <StatCard
           label="Current Balance"
           value={`${(profile?.points_balance ?? 0).toLocaleString()} pts`}
-          icon={<Wallet size={20} className="text-blue-400" />}
+          icon={<ClipboardList size={20} className="text-blue-400" />}
           color="bg-blue-500/15"
         />
         <StatCard
@@ -143,7 +143,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between p-5 border-b border-[#2a2e45]">
           <h2 className="font-semibold text-white">Recent Transactions</h2>
           <button
-            onClick={() => navigate('wallet')}
+            onClick={() => navigate('dashboard')}
             className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
           >
             View all
@@ -157,7 +157,7 @@ export default function DashboardPage() {
         ) : transactions.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center px-4">
             <div className="w-12 h-12 bg-[#1e2235] rounded-xl flex items-center justify-center mb-3">
-              <Wallet size={20} className="text-gray-500" />
+              <ClipboardList size={20} className="text-gray-500" />
             </div>
             <p className="text-gray-400 font-medium">No transactions yet</p>
             <p className="text-gray-600 text-sm mt-1">
@@ -185,6 +185,24 @@ export default function DashboardPage() {
             ))}
           </div>
         )}
+      </div>
+
+      {/* Dashboard footer links */}
+      <div className="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500">
+        <button
+          onClick={() => navigate('privacy')}
+          className="flex items-center gap-1.5 hover:text-white transition-colors"
+        >
+          <FileText size={14} />
+          Privacy Policy
+        </button>
+        <button
+          onClick={() => navigate('terms')}
+          className="flex items-center gap-1.5 hover:text-white transition-colors"
+        >
+          <Shield size={14} />
+          Terms of Use
+        </button>
       </div>
     </div>
   );

@@ -11,8 +11,6 @@ import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import SurveysPage from './pages/surveys/SurveysPage';
 import OfferwallsPage from './pages/offerwalls/OfferwallsPage';
-import WalletPage from './pages/wallet/WalletPage';
-import RewardsPage from './pages/rewards/RewardsPage';
 import WithdrawPage from './pages/withdraw/WithdrawPage';
 import ReferralsPage from './pages/referrals/ReferralsPage';
 import LeaderboardPage from './pages/leaderboard/LeaderboardPage';
@@ -23,9 +21,13 @@ import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import ContactPage from './pages/contact/ContactPage';
 import AdminPage from './pages/admin/AdminPage';
+import SurveySuccessPage from './pages/surveys/SurveySuccessPage';
+import SurveyOverquotaPage from './pages/surveys/SurveyOverquotaPage';
+import SurveyTerminatePage from './pages/surveys/SurveyTerminatePage';
+import SurveySecurityTerminatePage from './pages/surveys/SurveySecurityTerminatePage';
 
 const PROTECTED_PAGES = [
-  'dashboard', 'surveys', 'offerwalls', 'wallet', 'rewards',
+  'dashboard', 'surveys', 'offerwalls',
   'withdraw', 'referrals', 'leaderboard', 'profile', 'settings', 'admin',
 ];
 
@@ -55,7 +57,7 @@ function AppRouter() {
     );
   }
 
-  const publicPages = ['home', 'login', 'register', 'privacy', 'terms', 'contact', 'support'];
+  const publicPages = ['home', 'login', 'register', 'privacy', 'terms', 'contact', 'support', 'success', 'overquota', 'terminate', 'security-terminate'];
 
   if (publicPages.includes(currentPage)) {
     if (currentPage === 'home') return <HomePage />;
@@ -89,6 +91,30 @@ function AppRouter() {
         <ContactPage />
       </div>
     );
+    if (currentPage === 'success') return (
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
+        <Header />
+        <SurveySuccessPage />
+      </div>
+    );
+    if (currentPage === 'overquota') return (
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
+        <Header />
+        <SurveyOverquotaPage />
+      </div>
+    );
+    if (currentPage === 'terminate') return (
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
+        <Header />
+        <SurveyTerminatePage />
+      </div>
+    );
+    if (currentPage === 'security-terminate') return (
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
+        <Header />
+        <SurveySecurityTerminatePage />
+      </div>
+    );
   }
 
   return (
@@ -96,8 +122,6 @@ function AppRouter() {
       {currentPage === 'dashboard' && <DashboardPage />}
       {currentPage === 'surveys' && <SurveysPage />}
       {currentPage === 'offerwalls' && <OfferwallsPage />}
-      {currentPage === 'wallet' && <WalletPage />}
-      {currentPage === 'rewards' && <RewardsPage />}
       {currentPage === 'withdraw' && <WithdrawPage />}
       {currentPage === 'referrals' && <ReferralsPage />}
       {currentPage === 'leaderboard' && <LeaderboardPage />}
