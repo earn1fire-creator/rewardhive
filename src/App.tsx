@@ -57,65 +57,25 @@ function AppRouter() {
     );
   }
 
-  const publicPages = ['home', 'login', 'register', 'privacy', 'terms', 'contact', 'support', 'success', 'overquota', 'terminate', 'security-terminate'];
+  if (currentPage === 'home') return <HomePage />;
 
-  if (publicPages.includes(currentPage)) {
-    if (currentPage === 'home') return <HomePage />;
-    if (currentPage === 'login') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <LoginPage />
-      </div>
-    );
-    if (currentPage === 'register') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <RegisterPage />
-      </div>
-    );
-    if (currentPage === 'privacy') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <PrivacyPolicyPage />
-      </div>
-    );
-    if (currentPage === 'terms') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <TermsOfServicePage />
-      </div>
-    );
-    if (currentPage === 'contact' || currentPage === 'support') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <ContactPage />
-      </div>
-    );
-    if (currentPage === 'success') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <SurveySuccessPage />
-      </div>
-    );
-    if (currentPage === 'overquota') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <SurveyOverquotaPage />
-      </div>
-    );
-    if (currentPage === 'terminate') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <SurveyTerminatePage />
-      </div>
-    );
-    if (currentPage === 'security-terminate') return (
-      <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
-        <Header />
-        <SurveySecurityTerminatePage />
-      </div>
-    );
-  }
+  const withHeader = (children: React.ReactNode) => (
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0d0f18]">
+      <Header />
+      {children}
+    </div>
+  );
+
+  if (currentPage === 'login') return withHeader(<LoginPage />);
+  if (currentPage === 'register') return withHeader(<RegisterPage />);
+  if (currentPage === 'privacy') return withHeader(<PrivacyPolicyPage />);
+  if (currentPage === 'terms') return withHeader(<TermsOfServicePage />);
+  if (currentPage === 'contact') return withHeader(<ContactPage />);
+  if (currentPage === 'support') return withHeader(<SupportPage />);
+  if (currentPage === 'success') return withHeader(<SurveySuccessPage />);
+  if (currentPage === 'overquota') return withHeader(<SurveyOverquotaPage />);
+  if (currentPage === 'terminate') return withHeader(<SurveyTerminatePage />);
+  if (currentPage === 'security-terminate') return withHeader(<SurveySecurityTerminatePage />);
 
   return (
     <DashboardLayout>

@@ -8,6 +8,39 @@ const VALID_PAGES: Page[] = [
   'success', 'overquota', 'terminate', 'security-terminate',
 ];
 
+const PAGE_TO_PATH: Record<Page, string> = {
+  home:                '/',
+  login:               '/login',
+  register:            '/register',
+  dashboard:           '/dashboard',
+  surveys:             '/surveys',
+  offerwalls:          '/offerwalls',
+  withdraw:            '/withdraw',
+  referrals:           '/referrals',
+  leaderboard:         '/leaderboard',
+  profile:             '/profile',
+  settings:            '/settings',
+  support:             '/support',
+  privacy:             '/privacy',
+  terms:               '/terms',
+  contact:             '/contact',
+  admin:               '/admin',
+  success:             '/success',
+  overquota:           '/overquota',
+  terminate:           '/terminate',
+  'security-terminate': '/security-terminate',
+};
+
+const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
+  Object.entries(PAGE_TO_PATH).map(([page, path]) => [path, page as Page])
+);
+
+function pathToPage(pathname: string): Page {
+  const page = PATH_TO_PAGE[pathname];
+  if (page && VALID_PAGES.includes(page)) return page;
+  return 'home';
+}
+
 interface RouterContextType {
   currentPage: Page;
   navigate: (page: Page) => void;
@@ -21,16 +54,13 @@ const RouterContext = createContext<RouterContextType>({
 });
 
 export function RouterProvider({ children }: { children: React.ReactNode }) {
-  const getInitialPage = (): Page => {
-    const state = window.history.state?.page;
-    if (state && VALID_PAGES.includes(state)) return state as Page;
-    return 'home';
-  };
-
-  const [currentPage, setCurrentPage] = useState<Page>(getInitialPage);
+  const [currentPage, setCurrentPage] = useState<Page>(() => {
+    return pathToPage(window.location.pathname);
+  });
 
   const navigate = (page: Page) => {
-    window.history.pushState({ page }, '', '');
+    const path = PAGE_TO_PATH[page];
+    window.history.pushState({ page }, '', path);
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
@@ -40,18 +70,17 @@ export function RouterProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Seed initial history entry so back() has somewhere to go
-    window.history.replaceState({ page: currentPage }, '', '');
+    // Seed the current history entry with the page name
+    const path = PAGE_TO_PATH[currentPage];
+    window.history.replaceState({ page: currentPage }, '', path);
 
     const handlePopState = (e: PopStateEvent) => {
-      const page = e.state?.page;
-      if (page && VALID_PAGES.includes(page)) {
-        setCurrentPage(page as Page);
-        window.scrollTo(0, 0);
-      } else {
-        setCurrentPage('home');
-        window.scrollTo(0, 0);
-      }
+      const page = e.state?.page as Page | undefined;
+      const resolved = page && VALID_PAGES.includes(page)
+        ? page
+        : pathToPage(window.location.pathname);
+      setCurrentPage(resolved);
+      window.scrollTo(0, 0);
     };
 
     window.addEventListener('popstate', handlePopState);
