@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Zap, Bell, ChevronDown, Sun, Moon } from 'lucide-react';
+import { Menu, X, Bell, ChevronDown, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from '../../contexts/RouterContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -39,10 +39,14 @@ export default function Header({ onToggleSidebar, sidebarOpen }: HeaderProps) {
           onClick={() => navigate(user ? 'dashboard' : 'home')}
           className="flex items-center gap-2 flex-shrink-0"
         >
-          <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <Zap size={14} className="text-white" />
-          </div>
-          <span className="font-bold text-gray-900 dark:text-white text-base hidden sm:block">RewardHive</span>
+          <img
+            src="/logo-header.png"
+            alt="RewardHive"
+            width="60"
+            height="40"
+            className="h-8 w-auto object-contain"
+            loading="eager"
+          />
         </button>
 
         <div className="flex-1" />

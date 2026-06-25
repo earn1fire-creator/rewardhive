@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Mail, MessageSquare } from 'lucide-react';
 import { useRouter } from '../../contexts/RouterContext';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -176,13 +176,56 @@ export default function TermsOfServicePage() {
             </p>
           </Section>
 
-          <Section title="14. Contact">
+          <Section title="14. Third-Party Survey Providers">
             <p>
-              For questions about these Terms, please{' '}
-              <button onClick={() => navigate('contact')} className="text-blue-400 hover:text-blue-300 underline">
-                contact us
-              </button>.
+              RewardHive works with third-party survey and market research providers. Survey availability,
+              qualification criteria, rewards, and completion validation are controlled by these providers.
+              RewardHive does not guarantee that every user will qualify for every survey.
             </p>
+            <p>
+              By participating in surveys or offers on RewardHive, you acknowledge that:
+            </p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Third-party providers may have their own terms of service and privacy policies</li>
+              <li>Survey disqualifications and overquotas are determined by providers, not RewardHive</li>
+              <li>Reward amounts and availability may change based on provider requirements</li>
+              <li>RewardHive is not responsible for technical issues within third-party survey environments</li>
+            </ul>
+          </Section>
+
+          <Section title="15. Contact">
+            <p>
+              For questions about these Terms of Service, please reach out through one of the following channels:
+            </p>
+            <div className="mt-4 rounded-lg border border-[#2a2e45] bg-[#1a1d2e] p-5 space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <Mail size={14} className="text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-white font-medium text-sm">Email Support</p>
+                  <p className="text-gray-400 text-xs mt-0.5">support@rewardhive.com</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <MessageSquare size={14} className="text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-white font-medium text-sm">Support Center</p>
+                  <p className="text-gray-400 text-xs mt-0.5">
+                    Visit our{' '}
+                    <button
+                      onClick={() => navigate('contact')}
+                      className="text-blue-400 hover:text-blue-300 underline transition-colors"
+                    >
+                      Contact page
+                    </button>{' '}
+                    to submit a support request or inquiry.
+                  </p>
+                </div>
+              </div>
+            </div>
           </Section>
         </div>
       </div>

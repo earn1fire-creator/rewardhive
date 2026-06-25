@@ -12,6 +12,7 @@ interface AuthContextType {
     password: string,
     username: string,
     referredBy?: string,
+    country?: string,
   ) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
@@ -72,7 +73,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     password: string,
     username: string,
-    referredBy?: string
+    referredBy?: string,
+    country?: string,
   ): Promise<{ error: string | null }> => {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -87,6 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       username,
       referral_code: referralCode,
       referred_by: referredBy || null,
+      country: country || null,
     });
 
     if (profileError) {

@@ -2,21 +2,18 @@ import { useState } from 'react';
 import { User, Mail, Globe, Calendar, Shield, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-
-const COUNTRIES = [
-  'United States', 'United Kingdom', 'Canada', 'Australia', 'Germany', 'France',
-  'Netherlands', 'Sweden', 'Norway', 'Denmark', 'Spain', 'Italy', 'Brazil',
-  'India', 'Japan', 'South Korea', 'Singapore', 'New Zealand', 'Other',
-];
+import { COUNTRIES, getCountryByCode } from '../../lib/countries';
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile } = useAuth();
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState(profile?.username ?? '');
-  const [country, setCountry] = useState(profile?.country ?? '');
+  const [countryCode, setCountryCode] = useState(profile?.country ?? '');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+
+  const selectedCountry = getCountryByCode(countryCode);
 
   const handleSave = async () => {
     setError('');
@@ -28,7 +25,7 @@ export default function ProfilePage() {
     setLoading(true);
     const { error: updateErr } = await supabase
       .from('profiles')
-      .update({ username: username.trim(), country })
+      .update({ username: username.trim(), country: countryCode || null })
       .eq('id', user!.id);
 
     if (updateErr) {
@@ -49,7 +46,7 @@ export default function ProfilePage() {
 
   const handleCancel = () => {
     setUsername(profile?.username ?? '');
-    setCountry(profile?.country ?? '');
+    setCountryCode(profile?.country ?? '');
     setEditing(false);
     setError('');
   };
@@ -126,18 +123,36 @@ export default function ProfilePage() {
                   <Globe size={14} /> Country
                 </label>
                 {editing ? (
-                  <select
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    className="input-field"
-                  >
-                    <option value="">Select country...</option>
-                    {COUNTRIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    {selectedCountry && (
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg pointer-events-none">
+                        {selectedCountry.flag}
+                      </span>
+                    )}
+                    <select
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      className={`input-field ${selectedCountry ? 'pl-9' : ''}`}
+                    >
+                      <option value="">Select country...</option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c.code} value={c.code}>
+                          {c.flag} {c.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 ) : (
-                  <p className="text-white font-medium">{profile?.country || 'Not set'}</p>
+                  <div className="flex items-center gap-2">
+                    {selectedCountry ? (
+                      <>
+                        <span className="text-xl">{selectedCountry.flag}</span>
+                        <span className="text-white font-medium">{selectedCountry.name}</span>
+                      </>
+                    ) : (
+                      <p className="text-gray-500 italic text-sm">Not set</p>
+                    )}
+                  </div>
                 )}
               </div>
 
@@ -197,6 +212,16 @@ export default function ProfilePage() {
             <p className="text-xs text-gray-500 font-medium mb-1">Referral Code</p>
             <p className="text-white font-mono font-bold text-lg">{profile?.referral_code ?? '—'}</p>
           </div>
+
+          {selectedCountry && (
+            <div className="card p-4">
+              <p className="text-xs text-gray-500 font-medium mb-2">Location</p>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{selectedCountry.flag}</span>
+                <span className="text-white font-medium text-sm">{selectedCountry.name}</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Mail, MessageSquare } from 'lucide-react';
 import { useRouter } from '../../contexts/RouterContext';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -41,7 +41,16 @@ export default function PrivacyPolicyPage() {
             </p>
           </Section>
 
-          <Section title="2. Information We Collect">
+          <Section title="2. Data Controller">
+            <p>
+              RewardHive acts as the data controller for the information collected through the platform
+              and is responsible for handling user information according to this Privacy Policy. As data
+              controller, we determine the purposes and means of processing your personal data and are
+              accountable for ensuring that data is handled lawfully, fairly, and transparently.
+            </p>
+          </Section>
+
+          <Section title="3. Information We Collect">
             <p><strong className="text-white">Account Information:</strong> When you register, we collect your username, email address, and password (stored securely using industry-standard hashing).</p>
             <p><strong className="text-white">Profile Information:</strong> Country of residence and other optional profile details you choose to provide.</p>
             <p><strong className="text-white">Activity Data:</strong> Information about surveys completed, offers engaged with, points earned, and withdrawals requested.</p>
@@ -49,7 +58,7 @@ export default function PrivacyPolicyPage() {
             <p><strong className="text-white">Communications:</strong> Support tickets and messages you send to our team.</p>
           </Section>
 
-          <Section title="3. Cookies and Tracking">
+          <Section title="4. Cookies and Tracking">
             <p>
               We use cookies and similar tracking technologies to maintain your session, remember your preferences,
               and analyze platform usage. Cookies are small data files stored on your device.
@@ -65,20 +74,21 @@ export default function PrivacyPolicyPage() {
             </p>
           </Section>
 
-          <Section title="4. Third-Party Survey and Offer Providers">
+          <Section title="5. Third-Party Survey and Offer Providers">
             <p>
-              RewardHive integrates with third-party survey and offer providers. When you interact with
-              surveys or offers, those providers may collect data independently under their own privacy policies.
-              We are not responsible for their data practices.
+              RewardHive works with trusted third-party survey, offer, and market research providers.
+              These providers may collect and process information according to their own privacy policies
+              and terms. When you interact with surveys or offers on the platform, the relevant provider
+              may independently collect data about your participation.
             </p>
             <p>
-              Providers we integrate with may include: TimeWall, AdGate Media, Ayet Studios, OnlineSurvey,
-              Playfull, VortexWall, Notik, Ovnix, CPALead, TPlayAd, Revfox, Voxylum, and Spectra.
-              Each has their own privacy policy which we encourage you to review.
+              We encourage you to review the privacy policies of any third-party providers whose surveys
+              or offers you engage with. RewardHive is not responsible for the data practices of these
+              independent providers.
             </p>
           </Section>
 
-          <Section title="5. How We Use Your Information">
+          <Section title="6. How We Use Your Information">
             <p>We use collected information to:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Provide, operate, and improve the RewardHive platform</li>
@@ -90,7 +100,7 @@ export default function PrivacyPolicyPage() {
             </ul>
           </Section>
 
-          <Section title="6. Data Sharing">
+          <Section title="7. Data Sharing">
             <p>
               We do not sell your personal data. We may share your information only:
             </p>
@@ -102,7 +112,7 @@ export default function PrivacyPolicyPage() {
             </ul>
           </Section>
 
-          <Section title="7. Data Retention">
+          <Section title="8. Data Retention">
             <p>
               We retain your account data for as long as your account is active. Transaction records are
               retained for up to 7 years for legal and financial compliance. If you delete your account,
@@ -110,7 +120,7 @@ export default function PrivacyPolicyPage() {
             </p>
           </Section>
 
-          <Section title="8. Your Rights">
+          <Section title="9. Your Rights">
             <p>Depending on your location, you may have the right to:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Access a copy of your personal data</li>
@@ -122,7 +132,7 @@ export default function PrivacyPolicyPage() {
             <p>To exercise these rights, contact us through the Support page.</p>
           </Section>
 
-          <Section title="9. Security">
+          <Section title="10. Security">
             <p>
               We implement industry-standard security measures including encrypted connections (HTTPS/TLS),
               hashed passwords, row-level database security, and fraud detection systems. However, no
@@ -130,7 +140,7 @@ export default function PrivacyPolicyPage() {
             </p>
           </Section>
 
-          <Section title="10. Children's Privacy">
+          <Section title="11. Children's Privacy">
             <p>
               RewardHive is not intended for users under 18 years of age. We do not knowingly collect
               personal information from minors. If we become aware that a minor has registered, we will
@@ -138,24 +148,54 @@ export default function PrivacyPolicyPage() {
             </p>
           </Section>
 
-          <Section title="11. Changes to This Policy">
+          <Section title="12. Changes to This Policy">
             <p>
               We may update this Privacy Policy periodically. We will notify registered users of material
               changes via email. Continued use of the platform after changes constitutes acceptance.
             </p>
           </Section>
 
-          <Section title="12. Contact">
+          <Section title="13. Contact">
             <p>
-              For privacy-related inquiries, please use our{' '}
-              <button onClick={() => navigate('contact')} className="text-blue-400 hover:text-blue-300 underline">
-                Contact page
-              </button>{' '}
-              or{' '}
-              <button onClick={() => navigate('support')} className="text-blue-400 hover:text-blue-300 underline">
-                Support center
-              </button>.
+              For privacy-related inquiries, data access requests, or to exercise your rights under this
+              policy, please reach out through one of the following channels:
             </p>
+            <div className="mt-4 rounded-lg border border-[#2a2e45] bg-[#1a1d2e] p-5 space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <Mail size={14} className="text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-white font-medium text-sm">Privacy Inquiries</p>
+                  <p className="text-gray-400 text-xs mt-0.5">privacy@rewardhive.com</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <MessageSquare size={14} className="text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-white font-medium text-sm">Support Center</p>
+                  <p className="text-gray-400 text-xs mt-0.5">
+                    Visit our{' '}
+                    <button
+                      onClick={() => navigate('support')}
+                      className="text-blue-400 hover:text-blue-300 underline transition-colors"
+                    >
+                      Support center
+                    </button>{' '}
+                    or{' '}
+                    <button
+                      onClick={() => navigate('contact')}
+                      className="text-blue-400 hover:text-blue-300 underline transition-colors"
+                    >
+                      Contact page
+                    </button>{' '}
+                    to submit a request.
+                  </p>
+                </div>
+              </div>
+            </div>
           </Section>
         </div>
       </div>

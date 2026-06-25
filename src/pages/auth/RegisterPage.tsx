@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Eye, EyeOff, Zap, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, Zap, AlertCircle, CheckCircle2, Globe } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "../../contexts/RouterContext";
+import { COUNTRIES } from "../../lib/countries";
 
 export default function RegisterPage() {
   const { signUp } = useAuth();
@@ -9,6 +10,7 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     username: "",
     email: "",
+    country: "",
     password: "",
     confirmPassword: "",
     acceptTerms: false,
@@ -20,6 +22,8 @@ export default function RegisterPage() {
 
   const set = (key: keyof typeof form, value: string | boolean) =>
     setForm((f) => ({ ...f, [key]: value }));
+
+  const selectedCountry = COUNTRIES.find((c) => c.code === form.country);
 
   const passwordStrength = () => {
     const p = form.password;
@@ -49,10 +53,9 @@ export default function RegisterPage() {
     if (form.username.trim().length < 3)
       return setError("Username must be at least 3 characters.");
     if (!/^[a-zA-Z0-9_]+$/.test(form.username))
-      return setError(
-        "Username can only contain letters, numbers, and underscores.",
-      );
+      return setError("Username can only contain letters, numbers, and underscores.");
     if (!form.email.trim()) return setError("Email is required.");
+    if (!form.country) return setError("Please select your country.");
     if (!form.password) return setError("Password is required.");
     if (form.password.length < 8)
       return setError("Password must be at least 8 characters.");
@@ -66,6 +69,8 @@ export default function RegisterPage() {
       form.email.trim(),
       form.password,
       form.username.trim(),
+      undefined,
+      form.country,
     );
     setLoading(false);
 
@@ -129,6 +134,32 @@ export default function RegisterPage() {
             </div>
 
             <div>
+              <label className="flex items-center gap-1.5 text-sm font-medium text-gray-300 mb-1.5">
+                <Globe size={14} />
+                Country
+              </label>
+              <div className="relative">
+                {selectedCountry && (
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg pointer-events-none">
+                    {selectedCountry.flag}
+                  </span>
+                )}
+                <select
+                  value={form.country}
+                  onChange={(e) => set("country", e.target.value)}
+                  className={`input-field ${selectedCountry ? 'pl-9' : ''}`}
+                >
+                  <option value="">Select your country...</option>
+                  {COUNTRIES.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.flag} {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">
                 Password
               </label>
@@ -186,15 +217,15 @@ export default function RegisterPage() {
                 >
                   {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
-                {form.confirmPassword &&
-                  form.password === form.confirmPassword && (
-                    <CheckCircle2
-                      size={16}
-                      className="absolute right-9 top-1/2 -translate-y-1/2 text-emerald-400"
-                    />
-                  )}
+                {form.confirmPassword && form.password === form.confirmPassword && (
+                  <CheckCircle2
+                    size={16}
+                    className="absolute right-9 top-1/2 -translate-y-1/2 text-emerald-400"
+                  />
+                )}
               </div>
             </div>
+
             <div className="flex items-start gap-3 mt-2">
               <input
                 id="acceptTerms"
@@ -210,10 +241,7 @@ export default function RegisterPage() {
                 I agree to the{" "}
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("terms");
-                  }}
+                  onClick={(e) => { e.preventDefault(); navigate("terms"); }}
                   className="text-blue-400 hover:text-blue-300 underline"
                 >
                   Terms of Service
@@ -221,10 +249,7 @@ export default function RegisterPage() {
                 and{" "}
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("privacy");
-                  }}
+                  onClick={(e) => { e.preventDefault(); navigate("privacy"); }}
                   className="text-blue-400 hover:text-blue-300 underline"
                 >
                   Privacy Policy
