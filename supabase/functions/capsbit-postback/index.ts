@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import md5 from "https://esm.sh/md5@2.3.0";
 
 /**
  * Capsbit Postback Handler
@@ -47,14 +48,6 @@ function getClientIP(req: Request): string | null {
 function isValidUUID(uuid: string): boolean {
   const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return regex.test(uuid);
-}
-
-// Generate MD5 hash using Deno's built-in buffer
-async function md5(message: string): Promise<string> {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest("MD5", msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 // Get Supabase client (using service role for full access)
@@ -166,7 +159,7 @@ Deno.serve(async (req: Request) => {
     // Verify signature
     // Expected: MD5(user_id + payout + offer_id + transId + SECRET_KEY)
     const expectedSignatureInput = userId + payoutStr + offerId + transId + CAPSBIT_SECRET_KEY;
-    const expectedSignature = await md5(expectedSignatureInput);
+    const expectedSignature = md5(expectedSignatureInput);
 
     if (signature.toLowerCase() !== expectedSignature.toLowerCase()) {
       console.error(`[Capsbit Postback] Invalid signature. Expected: ${expectedSignature}, Got: ${signature}`);
