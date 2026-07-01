@@ -1,4 +1,4 @@
-import { Shield, Zap, CreditCard, BarChart3, ChevronRight, CheckCircle2, Star } from 'lucide-react';
+import { Shield, Zap, BarChart3, ChevronRight, CheckCircle2, Star } from 'lucide-react';
 import { useRouter } from '../contexts/RouterContext';
 import Header from '../components/layout/Header';
 

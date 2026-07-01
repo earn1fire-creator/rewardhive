@@ -25,9 +25,10 @@ import SurveySuccessPage from './pages/surveys/SurveySuccessPage';
 import SurveyOverquotaPage from './pages/surveys/SurveyOverquotaPage';
 import SurveyTerminatePage from './pages/surveys/SurveyTerminatePage';
 import SurveySecurityTerminatePage from './pages/surveys/SurveySecurityTerminatePage';
+import CapsbitPage from './pages/offerwalls/CapsbitPage';
 
 const PROTECTED_PAGES = [
-  'dashboard', 'surveys', 'offerwalls',
+  'dashboard', 'surveys', 'offerwalls', 'capsbit-page',
   'withdraw', 'referrals', 'leaderboard', 'profile', 'settings', 'admin',
 ];
 
@@ -82,6 +83,7 @@ function AppRouter() {
       {currentPage === 'dashboard' && <DashboardPage />}
       {currentPage === 'surveys' && <SurveysPage />}
       {currentPage === 'offerwalls' && <OfferwallsPage />}
+      {currentPage === 'capsbit-page' && <CapsbitPage />}
       {currentPage === 'withdraw' && <WithdrawPage />}
       {currentPage === 'referrals' && <ReferralsPage />}
       {currentPage === 'leaderboard' && <LeaderboardPage />}

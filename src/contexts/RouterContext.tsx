@@ -3,7 +3,7 @@ import type { Page } from '../types';
 
 const VALID_PAGES: Page[] = [
   'home', 'login', 'register', 'dashboard', 'surveys', 'offerwalls',
-  'withdraw', 'referrals', 'leaderboard', 'profile',
+  'capsbit-page', 'withdraw', 'referrals', 'leaderboard', 'profile',
   'settings', 'support', 'privacy', 'terms', 'contact', 'admin',
   'success', 'overquota', 'terminate', 'security-terminate',
 ];
@@ -15,6 +15,7 @@ const PAGE_TO_PATH: Record<Page, string> = {
   dashboard:           '/dashboard',
   surveys:             '/surveys',
   offerwalls:          '/offerwalls',
+  'capsbit-page':      '/capsbit',
   withdraw:            '/withdraw',
   referrals:           '/referrals',
   leaderboard:         '/leaderboard',

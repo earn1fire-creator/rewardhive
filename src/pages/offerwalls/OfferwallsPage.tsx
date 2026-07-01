@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Layers, X, Loader2, CheckCircle2 } from 'lucide-react';
 import { OFFERWALL_PROVIDERS } from '../../api/offerwallProviders';
 import { useAuth } from '../../contexts/AuthContext';
+import { useRouter } from '../../contexts/RouterContext';
 
 function OfferwallModal({
   provider,
@@ -75,10 +76,14 @@ function OfferwallModal({
 
 export default function OfferwallsPage() {
   const { user } = useAuth();
+  const { navigate } = useRouter();
   const [activeProvider, setActiveProvider] = useState<typeof OFFERWALL_PROVIDERS[0] | null>(null);
 
   const handleOpenWall = (provider: typeof OFFERWALL_PROVIDERS[number]) => {
-    if (provider.isActive && user) {
+    if (!user) return;
+    if (provider.id === 'capsbit') {
+      navigate('capsbit-page');
+    } else if (provider.isActive && provider.wallUrl) {
       setActiveProvider(provider);
     }
   };

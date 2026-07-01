@@ -93,6 +93,19 @@ export const OFFERWALL_PROVIDERS: OfferwallProviderConfig[] = [
     wallType: 'gaming',
     isActive: false,
   },
+  {
+    id: 'capsbit',
+    name: 'Capsbit',
+    displayName: 'Capsbit',
+    logoColor: '#f59e0b',
+    description: 'High-converting offerwall with global reach across surveys, app installs, and signups.',
+    apiEndpoint: 'https://api.capsbit.com/469c8d5b186be1bc3fcf177ccc4c5c39',
+    requiredParams: ['SECRET_KEY'],
+    callbackUrl: '/api/callbacks/capsbit',
+    docsUrl: 'https://api.capsbit.com',
+    wallType: 'offerwall',
+    isActive: true,
+  },
 ];
 
-export type OfferwallProviderId = 'playfull' | 'vortexwall' | 'notik' | 'ovnix' | 'cpalead' | 'tplayad';
+export type OfferwallProviderId = 'playfull' | 'vortexwall' | 'notik' | 'ovnix' | 'cpalead' | 'tplayad' | 'capsbit';

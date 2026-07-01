@@ -232,7 +232,7 @@ export default function AdminPage() {
     setPendingAction({ id, status });
   };
 
- const confirmAction = async (note: string) => {
+ const confirmAction = async (_note: string) => {
     if (!pendingAction) return;
     setActionLoading(pendingAction.id);
 

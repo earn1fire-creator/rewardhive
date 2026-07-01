@@ -5,6 +5,7 @@ export type Page =
   | 'dashboard'
   | 'surveys'
   | 'offerwalls'
+  | 'capsbit-page'
   | 'withdraw'
   | 'referrals'
   | 'leaderboard'
