@@ -112,18 +112,25 @@ Deno.serve(async (req: Request) => {
     const rawPayload = new URLSearchParams(params).toString();
     console.log(`[Capsbit Postback] Raw params:`, rawPayload);
 
-    // Extract Capsbit parameters
-    const transId = params.transId;
-    const userId = params.user_id;
+    // Extract Capsbit parameters - try multiple possible parameter names
+    const transId = params.transId || params.txid || params.trans_id || params.transactionId || params.transaction_id;
+    const userId = params.user_id || params.userid || params.userId || params.subid || params.subId;
     const payoutStr = params.payout;
     const rewardValueStr = params.reward_value;
     const status = params.status;
-    const userip = params.userip;
+    const userip = params.userip || params.user_ip || params.ip;
     const country = params.country;
-    const offerId = params.offer_id;
-    const offerName = params.offer_name;
-    const offerType = params.offer_type;
-    const signature = params.signature;
+    const offerId = params.offer_id || params.offerid || params.offerId;
+    const offerName = params.offer_name || params.offername;
+    const offerType = params.offer_type || params.offertype;
+    const signature = params.signature || params.sig || params.hash;
+
+    // DEBUG: Log all received parameters
+    console.log(`[Capsbit Postback] === DEBUG: ALL RECEIVED PARAMS ===`);
+    for (const [key, value] of Object.entries(params)) {
+      console.log(`[Capsbit Postback]   ${key} = "${value}"`);
+    }
+    console.log(`[Capsbit Postback] === END PARAMS ===`);
 
     // Validate required fields
     const missingParams: string[] = [];
@@ -156,21 +163,73 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    // Verify signature
-    // Expected: MD5(user_id + payout + offer_id + transId + SECRET_KEY)
-    const expectedSignatureInput = userId + payoutStr + offerId + transId + CAPSBIT_SECRET_KEY;
-    const expectedSignature = md5(expectedSignatureInput);
+    // DEBUG: Log signature verification details
+    console.log(`[Capsbit Postback] === DEBUG: SIGNATURE VERIFICATION ===`);
+    console.log(`[Capsbit Postback]   received signature = "${signature}"`);
+    console.log(`[Capsbit Postback]   user_id = "${userId}"`);
+    console.log(`[Capsbit Postback]   payout = "${payoutStr}"`);
+    console.log(`[Capsbit Postback]   offer_id = "${offerId}"`);
+    console.log(`[Capsbit Postback]   transId = "${transId}"`);
+    console.log(`[Capsbit Postback]   secret_key = "${CAPSBIT_SECRET_KEY}"`);
 
-    if (signature.toLowerCase() !== expectedSignature.toLowerCase()) {
-      console.error(`[Capsbit Postback] Invalid signature. Expected: ${expectedSignature}, Got: ${signature}`);
+    // Try multiple signature formats to find the one Capsbit uses
+    // Official: MD5(user_id + payout + offer_id + transId + SECRET_KEY)
+    const candidates: { label: string; input: string }[] = [
+      {
+        label: "user_id+payout+offer_id+transId+SECRET (official)",
+        input: userId + payoutStr + offerId + transId + CAPSBIT_SECRET_KEY,
+      },
+      {
+        label: "user_id+payout+offer_id+transId+SECRET (payout trimmed)",
+        input: userId + (parseFloat(payoutStr) || 0).toString() + offerId + transId + CAPSBIT_SECRET_KEY,
+      },
+      {
+        label: "user_id+payout+offer_id+transId+SECRET (payout 2 decimals)",
+        input: userId + (parseFloat(payoutStr) || 0).toFixed(2) + offerId + transId + CAPSBIT_SECRET_KEY,
+      },
+      {
+        label: "user_id+payout+offer_id+transId+SECRET (payout no trailing zeros)",
+        input: userId + String(parseFloat(payoutStr) || 0) + offerId + transId + CAPSBIT_SECRET_KEY,
+      },
+    ];
+
+    let expectedSignature = "";
+    let matchedLabel = "";
+    for (const candidate of candidates) {
+      const hash = md5(candidate.input);
+      console.log(`[Capsbit Postback]   candidate "${candidate.label}": input="${candidate.input}" => hash="${hash}"`);
+      if (hash.toLowerCase() === signature.toLowerCase()) {
+        expectedSignature = hash;
+        matchedLabel = candidate.label;
+        break;
+      }
+    }
+
+    if (!expectedSignature) {
+      // Log the official one explicitly for debugging
+      const officialInput = userId + payoutStr + offerId + transId + CAPSBIT_SECRET_KEY;
+      const officialHash = md5(officialInput);
+      console.error(`[Capsbit Postback] Invalid signature.`);
+      console.error(`[Capsbit Postback]   received: "${signature}"`);
+      console.error(`[Capsbit Postback]   official expected: "${officialHash}"`);
+      console.error(`[Capsbit Postback]   official input string: "${officialInput}"`);
       return new Response(JSON.stringify({
         success: false,
-        error: "Invalid signature"
+        error: "Invalid signature",
+        debug: {
+          received_signature: signature,
+          expected_signature: officialHash,
+          signature_input: officialInput,
+          params: params,
+        }
       }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
     }
+
+    console.log(`[Capsbit Postback]   SIGNATURE MATCHED: ${matchedLabel}`);
+    console.log(`[Capsbit Postback] === END SIGNATURE VERIFICATION ===`);
 
     // Parse amounts
     const payout = parseFloat(payoutStr) || 0;
