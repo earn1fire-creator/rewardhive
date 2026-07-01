@@ -33,7 +33,7 @@ const corsHeaders = {
 };
 
 // Capsbit Secret Key for signature verification
-const CAPSBIT_SECRET_KEY = "469c8d5b186be1bc3fcf177ccc4c5c39";
+const CAPSBIT_SECRET_KEY = "a4ae7cf9133be211c12a9b1cb694675c";
 
 // Helper to get real IP from request
 function getClientIP(req: Request): string | null {
